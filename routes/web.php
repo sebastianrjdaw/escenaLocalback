@@ -18,8 +18,8 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['admin'])->group(function () {
         Route::get('/dashboard', function () {
             return view('admin.index');
-        });
-
+        })->name('admin.index');
+        
         Route::resource('users', UserController::class);
     });
 

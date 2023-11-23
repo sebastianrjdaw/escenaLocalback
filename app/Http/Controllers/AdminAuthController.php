@@ -18,7 +18,7 @@ class AdminAuthController extends Controller
 
             if ($user && $user->rol === 'admin') {
                 // Autenticación exitosa para un administrador
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.index');
             } else {
                 // Autenticación exitosa pero no es un administrador
                 auth()->logout(); // Cerrar sesión
