@@ -24,7 +24,7 @@
 
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
-            <a href="" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">{{auth()->user()->name}}</a>
+            <p class="text-white text-3xl font-semibold uppercase ">{{auth()->user()->name}}</p>
 
         </div>
         <nav class="text-white text-base font-semibold pt-3">
@@ -37,6 +37,13 @@
                 Logs
             </a>            
         </nav>
+        <form action="{{ route('admin.logout') }}" method="POST" class="absolute bottom-0 w-full">
+            @csrf
+            <button type="submit" class="text-white py-4 pl-6 nav-item w-full text-left hover:bg-gray-700">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                Cerrar Sesión
+            </button>
+        </form>
     </aside>
 
     <div class="w-full flex flex-col h-screen overflow-y-hidden">

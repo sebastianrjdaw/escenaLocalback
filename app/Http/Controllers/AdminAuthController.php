@@ -29,5 +29,13 @@ class AdminAuthController extends Controller
         // Autenticación fallida
         return redirect()->back()->with('error', 'Credenciales incorrectas.');
     }
+    public function logout()
+    {
+        // Cerrar sesión del usuario
+        auth()->logout(); // Cerrar sesión
+
+        // Redirigir al usuario a la vista de inicio de sesión
+        return redirect('/');
+    }
 
 }
