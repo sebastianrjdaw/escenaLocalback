@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\AdminLogController;
 
 Route::get('/', function () {
     return view('login');
@@ -19,7 +19,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
             return view('admin.index');
         })->name('admin.index');
-        
+
+        Route::get('/admin/logs', [AdminLogController::class, 'index'])->name('admin.logs.index');
         Route::resource('users', UserController::class);
     });
 
