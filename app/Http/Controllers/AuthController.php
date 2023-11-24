@@ -20,6 +20,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password')),
             'rol' => $request->input('rol')
         ]);
+
+        $this->logActivity("Usuario registrado desde Front : {$user->name}", $user);
+
         return $user;
     }
 
