@@ -13,4 +13,8 @@ class Perfil extends Model
     {
         return $this->morphTo();
     }
+    public function redesSociales()
+    {
+        return $this->hasOne(RedesSociales::class);
+    }
 }

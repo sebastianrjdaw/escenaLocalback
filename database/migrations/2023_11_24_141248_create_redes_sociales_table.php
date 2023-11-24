@@ -10,13 +10,15 @@ class CreateRedesSocialesTable extends Migration
     {
         Schema::create('redes_sociales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('perfil_id')->constrained()->onDelete('cascade');
+            $table->foreignId('perfil_id')->constrained('perfiles')->onDelete('cascade');
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('instagram')->nullable();
             $table->string('pagina_propia')->nullable();
-            $table->string('spotify')->nullable();          //Solo artistas
-            $table->string('soundcloud')->nullable();       //Solo artistas
+            $table->string('spotify')->nullable(); // Solo artistas
+            $table->string('soundcloud')->nullable(); // Solo artistas
+            $table->unsignedBigInteger('perfilable_id');
+            $table->string('perfilable_type');
             $table->timestamps();
         });
     }

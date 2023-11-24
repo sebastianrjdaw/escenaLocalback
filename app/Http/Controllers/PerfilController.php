@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Perfil;
-use App\Models\AsistentePerfil;
-use App\Models\SalaPerfil;
-use App\Models\ArtistaPerfil;
+use App\Models\RedesSociales;
 
 class PerfilController extends Controller
 {
-    public function completarPerfil()
+    public function completarPerfil(Request $request)
     {
         // Obtener el usuario autenticado
         $user = auth()->user();
@@ -23,11 +20,31 @@ class PerfilController extends Controller
             $user->perfil()->save($perfil);
         }
 
-        // Redirigir a la vista para completar el perfil general
-        return view('perfil.completar', compact('user'));
+        // Retornar una respuesta JSON
+        return response()->json(['message' => 'Perfil completado exitosamente', 'user' => $user]);
     }
 
-    public function guardarPerfil(Request $request)
+    public function editarPerfil(Request $request)
+    {
+        // Obtener el usuario autenticado
+        $user = auth()->user();
+
+        // Verificar si el usuario tiene un perfil
+        if (!$user->perfil) {
+            // Puedes manejar este caso según tus necesidades, por ejemplo, retornando un mensaje de error
+            return response()->json(['error' => 'El usuario no tiene un perfil asociado'], 404);
+        }
+
+        // Obtener el perfil del usuario
+        $perfil = $user->perfil;
+
+        // Añadir lógica según sea necesario
+
+        // Retornar la respuesta JSON con los datos actuales del perfil
+        return response()->json(['user' => $user, 'perfil' => $perfil]);
+    }
+
+    public function actualizarPerfil(Request $request)
     {
         // Validar la entrada del formulario
         $request->validate([
@@ -39,23 +56,27 @@ class PerfilController extends Controller
         // Obtener el usuario autenticado
         $user = auth()->user();
 
-        // Guardar los datos en el perfil
+        // Verificar si el usuario tiene un perfil
+        if (!$user->perfil) {
+            // Puedes manejar este caso según tus necesidades, por ejemplo, retornando un mensaje de error
+            return response()->json(['error' => 'El usuario no tiene un perfil asociado'], 404);
+        }
+
+        // Obtener el perfil del usuario
         $perfil = $user->perfil;
+
+        // Actualizar los datos en el perfil
         $perfil->update($request->except('_token'));
 
-        // Redirigir a la vista adecuada según el rol del usuario
-        if ($user->hasRole('asistente')) {
-            return redirect()->route('asistente.completar');
-        } elseif ($user->hasRole('sala')) {
-            return redirect()->route('sala.completar');
-        } elseif ($user->hasRole('artista')) {
-            return redirect()->route('artista.completar');
-        } else {
-            // Redirigir a la vista principal o a donde sea necesario
-            return redirect()->route('dashboard');
+        // Actualizar o crear redes sociales asociadas al perfil
+        foreach ($request->input('redes_sociales') as $redSocial) {
+            RedesSociales::updateOrCreate(
+                ['perfil_id' => $perfil->id, 'plataforma' => $redSocial['plataforma']],
+                ['username' => $redSocial['username']]
+            );
         }
+
+        // Retornar una respuesta JSON
+        return response()->json(['message' => 'Perfil actualizado exitosamente', 'user' => $user, 'perfil' => $perfil]);
     }
-
-    
 }
-
