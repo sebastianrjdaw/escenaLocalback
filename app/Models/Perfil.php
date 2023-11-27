@@ -9,9 +9,11 @@ class Perfil extends Model
 {
     use HasFactory;
 
-    public function perfilable()
+    protected $fillable = ['biografia', 'redes_sociales', 'user_id'];
+
+    public function user()
     {
-        return $this->morphTo();
+        return $this->belongsTo(User::class);
     }
     public function redesSociales()
     {

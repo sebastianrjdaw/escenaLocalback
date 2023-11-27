@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,10 +10,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('artista_perfiles', function (Blueprint $table) {
+        Schema::create('perfils', function (Blueprint $table) {
             $table->id();
-            $table->integer('cache');
+            $table->text('biografia')->nullable();
+            $table->json('redes_sociales')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('artista_perfiles');
+        Schema::dropIfExists('perfils');
     }
+    
 };
+

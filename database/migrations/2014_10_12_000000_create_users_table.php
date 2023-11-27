@@ -28,6 +28,19 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Eliminar registros relacionados en la tabla perfils
+        DB::table('perfils')->delete();
+
+        // Eliminar clave foránea en la tabla perfils
+        Schema::table('perfils', function (Blueprint $table) {
+            $table->dropForeign(['perfilable_id']);
+        });
+
+        // Eliminar la tabla perfils
+        Schema::dropIfExists('perfils');
+
+        // Eliminar la tabla users
         Schema::dropIfExists('users');
     }
 };
+
