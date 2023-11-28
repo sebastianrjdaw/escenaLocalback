@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Perfil;
-use App\Models\RedesSociales;
 
 class PerfilController extends Controller
 {
@@ -16,7 +15,8 @@ class PerfilController extends Controller
         // Verificar si el usuario tiene un perfil
         if (!$user->perfil) {
             // Crear un perfil para el usuario
-            $perfil = new Perfil();
+            $perfilData = $request->only(['biografia', 'facebook', 'twitter', 'instagram', 'pagina_propia', 'spotify', 'soundcloud']);
+            $perfil = new Perfil($perfilData);
             $user->perfil()->save($perfil);
         }
 
@@ -49,8 +49,12 @@ class PerfilController extends Controller
         // Validar la entrada del formulario
         $request->validate([
             'biografia' => 'nullable|string',
-            'redes_sociales' => 'nullable|array',
-            // Otros campos generales del perfil
+            'facebook' => 'nullable|string',
+            'twitter' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'pagina_propia' => 'nullable|string',
+            'spotify' => 'nullable|string',
+            'soundcloud' => 'nullable|string',
         ]);
 
         // Obtener el usuario autenticado
@@ -66,17 +70,12 @@ class PerfilController extends Controller
         $perfil = $user->perfil;
 
         // Actualizar los datos en el perfil
-        $perfil->update($request->except('_token'));
-
-        // Actualizar o crear redes sociales asociadas al perfil
-        foreach ($request->input('redes_sociales') as $redSocial) {
-            RedesSociales::updateOrCreate(
-                ['perfil_id' => $perfil->id, 'plataforma' => $redSocial['plataforma']],
-                ['username' => $redSocial['username']]
-            );
-        }
+        $perfil->update($request->only(['biografia', 'facebook', 'twitter', 'instagram', 'pagina_propia', 'spotify', 'soundcloud']));
 
         // Retornar una respuesta JSON
         return response()->json(['message' => 'Perfil actualizado exitosamente', 'user' => $user, 'perfil' => $perfil]);
     }
 }
+
+
+

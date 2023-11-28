@@ -29,7 +29,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     // Completitud del perfil
     Route::post('completar-perfil', [PerfilController::class, 'completarPerfil']);
-
+    Route::post('/prueba-perfil',function(){
+        return response()->json(auth()->user()->perfil(), 200);
+    });
     // Edición del perfil
     Route::get('editar-perfil', [PerfilController::class, 'editarPerfil']);
     Route::post('actualizar-perfil', [PerfilController::class, 'actualizarPerfil']);
