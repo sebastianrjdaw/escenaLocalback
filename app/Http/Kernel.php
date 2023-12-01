@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
+            // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -25,8 +25,12 @@ class Kernel extends HttpKernel
     ];
 
 
-    protected $routeMiddleware =[
-        'admin'=>\App\Http\Middleware\AdminMiddleware::class
+    protected $routeMiddleware = [
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'asistente' => \App\Http\Middleware\AsistenteMiddleware::class,
+        'sala' => \App\Http\Middleware\SalaMiddleware::class,
+        'artista' => \App\Http\Middleware\ArtistaMiddleware::class,
+
     ];
 
     /**
@@ -46,8 +50,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+                // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
