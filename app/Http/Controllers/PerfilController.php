@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Perfil;
+use App\Models\Sala;
+use App\Models\Artista;
+use App\Models\Asistente;
+
 
 class PerfilController extends Controller
 {
@@ -20,9 +24,23 @@ class PerfilController extends Controller
             $user->perfil()->save($perfil);
         }
 
+        switch ($user->rol) {
+            case 'sala':
+                Sala::firstOrCreate(['user_id' => $user->id]);
+                break;
+            case 'artista':
+                Artista::firstOrCreate(['user_id' => $user->id]);
+                break;
+            case 'asistente':
+                Asistente::firstOrCreate(['user_id' => $user->id]);
+                break;
+            // Puedes agregar más casos según sea necesario
+        }
         // Retornar una respuesta JSON
         return response()->json(['message' => 'Perfil completado exitosamente', 'user' => $user]);
     }
+
+    
 
     public function editarPerfil(Request $request)
     {

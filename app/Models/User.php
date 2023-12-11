@@ -13,7 +13,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-   
+    public function sala()
+    {
+        return $this->hasOne(Sala::class);
+    }
     public function perfil()
     {
         return $this->hasOne(Perfil::class);

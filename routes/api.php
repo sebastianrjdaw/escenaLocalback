@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SalaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PerfilController;
@@ -35,4 +36,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Edición del perfil
     Route::get('editar-perfil', [PerfilController::class, 'editarPerfil']);
     Route::post('actualizar-perfil', [PerfilController::class, 'actualizarPerfil']);
+
+    Route::middleware('sala')->group(function () {
+        Route::get ('sala', [SalaController::class,'getSala']);
+        Route::get ('direccion', [SalaController::class,'getDireccion']);
+        Route::post('completar-direccion',[SalaController::class, 'setDireccion']);
+
+    });
 });

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('salas', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->id(); // Configurar como autoincremental
+            $table->foreignId('user_id')->constrained('users');
             $table->string('direccion')->nullable();
             $table->integer('capacidad')->nullable();
             $table->timestamps();

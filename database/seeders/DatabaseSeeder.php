@@ -14,7 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            UsuariosSeeder::class
+            UsuariosSeeder::class,
+            //ProvinciasSeeder::class,
+            //LocalidadesSeeder::class
         ]);
     }
 }
